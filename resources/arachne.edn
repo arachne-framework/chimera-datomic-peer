@@ -1,0 +1,4 @@
+[{:arachne/name :org.arachne-framework/chimera-datomic-peer
+  :arachne/schema arachne.chimera-datomic-peer/schema
+  :arachne/configure arachne.chimera-datomic-peer/configure
+  :arachne/dependencies [:org.arachne-framework/arachne-chimera]}]
