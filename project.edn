@@ -3,13 +3,13 @@
  :description "Datomic Peer Chimera module"
  :license {"Apache Software License 2.0" "http://www.apache.org/licenses/LICENSE-2.0"}
  :deps [[org.clojure/clojure "1.9.0-alpha14" :scope "provided"]
-        [org.arachne-framework/arachne-chimera "0.2.0-master-0020-e673c77"]
+        [org.arachne-framework/arachne-chimera "0.2.0-master-0033-78c06bd"]
         [org.clojure/test.check "0.9.0" :scope "test"
          :exclusions [org.clojure/clojure]]
         [org.clojure/tools.namespace "0.2.11" :scope "test"
          :exclusions [org.clojure/clojure]]
         [datascript "0.15.3" :scope "test"]
-        [com.datomic/datomic-free "0.9.5350"
+        [com.datomic/datomic-free "0.9.5561"
          :exclusions [org.slf4j/slf4j-api
                       org.slf4j/slf4j-nop
                       org.slf4j/slf4j-log4j12
