@@ -264,9 +264,7 @@
   ([adapter op entity-map]
    (transact adapter op (put-op adapter op entity-map (fresh-context))))
   ([adapter op entity-map {:keys [txdata entities] :as context}]
-   (let [key (adapter/identity-attribute adapter entity-map op)
-         val (get entity-map key)
-         lu (ch/lookup key val)
+   (let [lu (ch/entity-lookup adapter entity-map)
          tid (d/tempid :db.part/user)
          convert (fn [val]
                    (if (ch/lookup? val)
