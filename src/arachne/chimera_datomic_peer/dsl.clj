@@ -11,12 +11,14 @@
 (defdsl adapter
   "Define a Datomic Peer adapter, using the specified Datomic URI and migrations"
   (s/cat :uri string?
+         :ensure-on-start? boolean?
          :migrations (s/+ :chimera.migration/name))
-  [uri & migrations]
+  [uri ensure-on-start? & migrations]
   (let [tid (cfg/tempid)]
     (script/transact
       [{:db/id tid
         :chimera.datomic-peer-adapter/uri (:uri &args)
+        :chimera.adapter/apply-migrations-on-start? (:ensure-on-start? &args)
         :chimera.adapter/migrations (map (fn [mig-name]
                                            {:chimera.migration/name mig-name})
                                       (:migrations &args))}]

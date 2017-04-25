@@ -107,7 +107,8 @@
            :db/doc "The MD5 signature of the migration"}
           {:db/id "chimera-partition"
            :db/ident :db.part/chimera}
-          [:db/add :db.part/db :db.install/partition "chimera-partition"]]))))
+          [:db/add :db.part/db :db.install/partition "chimera-partition"]]))
+    true))
 
 (defn- datomic-cardinality
   "Given a Chimera attribute, return the Datomic cardinality"

@@ -29,7 +29,7 @@
   "Given a migration ref, return a ne"
   [migration]
   (let [uri (str "datomic:mem://" (UUID/randomUUID))]
-    (dsl/adapter uri migration)))
+    (dsl/adapter uri false migration)))
 
 (deftest test-harness
   (harness/exercise-all test-adapter [:org.arachne-framework/chimera-datomic-peer]))
