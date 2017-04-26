@@ -23,3 +23,13 @@
                                            {:chimera.migration/name mig-name})
                                       (:migrations &args))}]
       tid)))
+
+(defdsl seed
+  "Define a migration operation that transacts the specified txdata into the
+   database. Any schema elements present in the txdata will *not* be reflected
+   in Chimera's data model."
+  (s/cat :txdata vector?)
+  [txdata]
+  {:db/id (cfg/tempid)
+   :chimera.migration.operation/type :chimera.datomic-peer.operation/txdata
+   :chimera.datomic-peer.operation.txdata/edn (pr-str txdata)})

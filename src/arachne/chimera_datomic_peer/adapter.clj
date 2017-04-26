@@ -12,6 +12,7 @@
             [arachne.chimera :as ch]
             [arachne.chimera.operation :as cho]
             [arachne.chimera-datomic-peer.adapter.pull-expressions :as pe]
+            [arachne.chimera-datomic-peer.adapter.operations :as ops]
             [com.stuartsierra.component :as c]
             [clojure.walk :as w]))
 
@@ -52,7 +53,11 @@
    {:chimera.adapter.dispatch/index 0,
     :chimera.adapter.dispatch/pattern "_"
     :chimera.adapter.dispatch/operation {:chimera.operation/type :chimera.operation/batch}
-    :chimera.adapter.dispatch/impl ::batch-op}])
+    :chimera.adapter.dispatch/impl ::batch-op}
+   {:chimera.adapter.dispatch/index 0,
+    :chimera.adapter.dispatch/pattern "_"
+    :chimera.adapter.dispatch/operation {:chimera.operation/type :chimera.datomic-peer.operation/txdata}
+    :chimera.adapter.dispatch/impl ::txdata-op}])
 
 (defn configure-adapter
   "Configure a Datomic Peer adapter, adding all the attributes a Datomic Peer needs"
@@ -62,7 +67,11 @@
                       :chimera.adapter.capability/atomic? true})]
     (cfg/with-provenance :module `configure-adapter
       (cfg/update cfg
-        [{:db/id adapter-eid
+        [{:db/id (cfg/tempid)
+          :chimera.operation/type :chimera.datomic-peer.operation/txdata
+          :chimera.operation/idempotent? false
+          :chimera.operation/batchable? true}
+         {:db/id adapter-eid
           :chimera.adapter/capabilities (map capability [:chimera.operation/initialize-migrations
                                                          :chimera.operation/migrate
                                                          :chimera.operation/add-attribute
@@ -70,7 +79,8 @@
                                                          :chimera.operation/put
                                                          :chimera.operation/delete
                                                          :chimera.operation/delete-entity
-                                                         :chimera.operation/batch])
+                                                         :chimera.operation/batch
+                                                         :chimera.datomic-peer.operation/txdata])
           :chimera.adapter/dispatches default-dispatches
           :chimera.adapter/start ::start-adapter}]))))
 
@@ -178,7 +188,7 @@
 (defn add-attr-op
   "Implementation for :chimera.operation/add-attr"
   [adapter _ payload context]
-  (let [attr (:chimera.migration.operation.add-attribute/attr payload)
+  (let [attr (:chimera.operation.add-attribute/attr payload)
         txdata {:db/id (d/tempid :db.part/db)
                 :db/ident (:chimera.attribute/name attr)
                 :db/valueType (datomic-valuetype attr)
@@ -370,3 +380,9 @@
               (ch/operate adapter op-type payload context))
       (fresh-context)
       operations)))
+
+(defn txdata-op
+  "Implementation for :chimera.datomic-peer.operation/txdata"
+  [adapter _ payload context]
+  (update context :txdata concat
+    (:chimera.datomic-peer.operation.txdata/edn payload)))

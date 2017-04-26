@@ -8,4 +8,14 @@
     (m/type :chimera/DatomicPeerAdapter [:chimera/Adapter]
       "An adapter designed to project onto a Datomic Peer"
       (m/attr :chimera.datomic-peer-adapter/uri :one :string
-        "The Datomic connection URI for this adapter"))))
+        "The Datomic connection URI for this adapter"))
+
+    (m/type :chimera.datomic-peer.operation/Txdata []
+      "Arbitrary Datomic transaction data, as a migration.
+
+      If the txdata contains schema elements, they will not be included in the Chimera data model."
+
+      (m/attr :chimera.datomic-peer.operation.txdata/edn :one :string
+        "EDN string representation of the txdata to be added"))
+
+    ))
