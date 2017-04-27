@@ -25,7 +25,7 @@
   "Given a migration ref, return a ne"
   [migration]
   (let [uri (str "datomic:mem://" (UUID/randomUUID))]
-    (dsl/adapter uri false migration)))
+    (dsl/adapter uri [migration])))
 
 (deftest test-harness
   (harness/exercise-all test-adapter [:org.arachne-framework/chimera-datomic-peer]))
@@ -48,7 +48,9 @@
 
   (a/id :test/adapter
     (dsl/adapter (str "datomic:mem://" (UUID/randomUUID))
-      true :test/m2))
+      [:test/m2]
+      :ensure true
+      :wipe true))
 
   (a/id :test/rt (a/runtime [:test/adapter])))
 
@@ -60,7 +62,6 @@
         rt (rt/init cfg [:arachne/id :test/rt])
         rt (component/start rt)
         adapter (rt/lookup rt [:arachne/id :test/adapter])]
-
     (is (= {:test.person/id person-id
             :test.person/name "Test Person"}
           (chimera/operate adapter :chimera.operation/get

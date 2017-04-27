@@ -87,6 +87,8 @@
 (defn start-adapter
   "Function called when the adapter starts, returning an updated adapter"
   [adapter]
+  (when (:chimera.datomic-peer-adapter/wipe-on-start? adapter)
+    (d/delete-database (:chimera.datomic-peer-adapter/uri adapter)))
   (assoc adapter ::pull-exprs (pe/build-pull-expressions adapter)))
 
 (defn- conn

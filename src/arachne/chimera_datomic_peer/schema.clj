@@ -8,7 +8,10 @@
     (m/type :chimera/DatomicPeerAdapter [:chimera/Adapter]
       "An adapter designed to project onto a Datomic Peer"
       (m/attr :chimera.datomic-peer-adapter/uri :one :string
-        "The Datomic connection URI for this adapter"))
+        "The Datomic connection URI for this adapter")
+      (m/attr :chimera.datomic-peer-adapter/wipe-on-start? :one-or-none :boolean
+        "Flag to indicate whether the given database should be deleted before
+         it is initialized (useful for testing)"))
 
     (m/type :chimera.datomic-peer.operation/Txdata []
       "Arbitrary Datomic transaction data, as a migration.

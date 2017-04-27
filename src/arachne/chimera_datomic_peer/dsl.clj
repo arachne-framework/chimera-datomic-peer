@@ -8,20 +8,30 @@
             [arachne.core.util :as u]
             [arachne.chimera.specs]))
 
+(s/def ::ensure boolean?)
+(s/def ::wipe boolean?)
+
 (defdsl adapter
-  "Define a Datomic Peer adapter, using the specified Datomic URI and migrations"
+  "Define a Datomic Peer adapter, using the specified Datomic URI and migrations.
+
+  Takes the following options:
+
+  :ensure - Invoke `apply-migrations` when the adapter starts.
+  ;wipe - Erase the database when the adapter starts. Use only for testing!"
   (s/cat :uri string?
-         :ensure-on-start? boolean?
-         :migrations (s/+ :chimera.migration/name))
-  [uri ensure-on-start? & migrations]
+         :migrations (s/coll-of :chimera.migration/name :min-count 1)
+         :options (u/keys** :opt-un [::ensure ::wipe]))
+  [uri migrations & options]
   (let [tid (cfg/tempid)]
     (script/transact
-      [{:db/id tid
-        :chimera.datomic-peer-adapter/uri (:uri &args)
-        :chimera.adapter/apply-migrations-on-start? (:ensure-on-start? &args)
-        :chimera.adapter/migrations (map (fn [mig-name]
-                                           {:chimera.migration/name mig-name})
-                                      (:migrations &args))}]
+      [(u/mkeep
+         {:db/id tid
+          :chimera.datomic-peer-adapter/uri (:uri &args)
+          :chimera.adapter/apply-migrations-on-start? (-> &args :options second :ensure)
+          :chimera.datomic-peer-adapter/wipe-on-start? (-> &args :options second :wipe)
+          :chimera.adapter/migrations (map (fn [mig-name]
+                                             {:chimera.migration/name mig-name})
+                                        (:migrations &args))})]
       tid)))
 
 (defdsl seed
