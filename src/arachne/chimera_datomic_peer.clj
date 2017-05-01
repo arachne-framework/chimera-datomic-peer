@@ -20,3 +20,8 @@
                               :where
                               [?a :chimera.datomic-peer-adapter/uri _]])]
     (reduce peer-adapter/configure-adapter cfg adapters)))
+
+(defn conn
+  "Retrieve a Datomic Peer connection object for the given adapter component"
+  [adapter]
+  (peer-adapter/conn adapter))

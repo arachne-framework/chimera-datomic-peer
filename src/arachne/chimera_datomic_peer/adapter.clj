@@ -91,7 +91,7 @@
     (d/delete-database (:chimera.datomic-peer-adapter/uri adapter)))
   (assoc adapter ::pull-exprs (pe/build-pull-expressions adapter)))
 
-(defn- conn
+(defn conn
   "Return the Datomic connection object for the given Datomic adapter"
   [adapter]
   (let [uri (:chimera.datomic-peer-adapter/uri adapter)]
