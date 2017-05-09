@@ -4,7 +4,7 @@
             [arachne.chimera.adapter :as a]
             [arachne.error :as e :refer [deferror error]]
             [clojure.edn :as edn]
-            [clojure.spec :as s]))
+            [clojure.spec.alpha :as s]))
 
 (s/def :chimera.datomic-peer.operation/txdata
   (s/fspec :args (s/cat :adapter :chimera/adapter

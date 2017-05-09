@@ -1,6 +1,6 @@
 (ns arachne.chimera-datomic-peer.adapter
   "Chimera adapter implementation"
-  (:require [clojure.spec :as s]
+  (:require [clojure.spec.alpha :as s]
             [datomic.api :as d]
             [arachne.error :as e :refer [deferror error]]
             [arachne.core.dsl :as core]

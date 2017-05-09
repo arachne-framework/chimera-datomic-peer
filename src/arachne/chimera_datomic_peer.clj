@@ -1,6 +1,6 @@
 (ns arachne.chimera-datomic-peer
   "Utilities for working with CLJS in Arachne"
-  (:require [clojure.spec :as s]
+  (:require [clojure.spec.alpha :as s]
             [arachne.chimera-datomic-peer.schema :as schema]
             [arachne.chimera-datomic-peer.adapter :as peer-adapter]
             [arachne.error :as e :refer [deferror error]]

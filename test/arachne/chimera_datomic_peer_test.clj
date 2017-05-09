@@ -1,6 +1,6 @@
 (ns arachne.chimera-datomic-peer-test
   (:require [clojure.test :refer :all]
-            [clojure.spec :as s]
+            [clojure.spec.alpha :as s]
             [arachne.core :as core]
             [arachne.core.runtime :as rt]
             [arachne.core.config :as cfg]

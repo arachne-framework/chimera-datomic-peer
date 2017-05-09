@@ -1,6 +1,6 @@
 (ns arachne.chimera-datomic-peer.dsl
   "DSL code to to create a Datomic Peer Chimera Adapter"
-  (:require [clojure.spec :as s]
+  (:require [clojure.spec.alpha :as s]
             [arachne.error :as e :refer [deferror error]]
             [arachne.core.dsl :as core]
             [arachne.core.config :as cfg]
