@@ -3,7 +3,7 @@
  :description "Datomic Peer Chimera module"
  :license {"Apache Software License 2.0" "http://www.apache.org/licenses/LICENSE-2.0"}
  :deps [[org.clojure/clojure "1.9.0-alpha16" :scope "provided"]
-        [org.arachne-framework/arachne-chimera "0.2.0-master-0039-6b3eb65"]
+        [org.arachne-framework/arachne-chimera "0.2.0-master-0041-219f321"]
         [org.clojure/test.check "0.9.0" :scope "test"
          :exclusions [org.clojure/clojure]]
         [org.clojure/tools.namespace "0.2.11" :scope "test"
